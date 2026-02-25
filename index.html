@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Latest Posts - Field & Rural Tech Services</title>
@@ -10,6 +10,13 @@
     padding: 20px;
     font-family: Arial, sans-serif;
     background: #f5f7fa;
+  }
+
+  h1 {
+    text-align: center;
+    color: #1a1a1a;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
   }
 
   .frts-grid {
@@ -68,6 +75,8 @@
 
 <body>
 
+<h1>Latest From Field & Rural Tech Services</h1>
+
 <div class="frts-grid" id="posts"></div>
 
 <script>
@@ -99,6 +108,10 @@ fetch("https://fieldruraltech.blogspot.com/feeds/posts/default?alt=json&max-resu
         </div>
       `;
     });
+  })
+  .catch(err => {
+    document.getElementById("posts").innerHTML =
+      "<p style='text-align:center;color:#444;'>Unable to load posts right now.</p>";
   });
 </script>
 
