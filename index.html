@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Latest Posts - Field & Rural Tech Services</title>
+
+<style>
+  body {
+    margin: 0;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background: #f5f7fa;
+  }
+
+  .frts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .frts-card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    transition: transform 0.2s ease;
+  }
+
+  .frts-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .frts-card img {
+    width: 100%;
+    height: auto;
+  }
+
+  .frts-card h3 {
+    font-size: 1.2rem;
+    margin: 12px;
+    color: #1a1a1a;
+  }
+
+  .frts-card p {
+    margin: 0 12px 12px;
+    color: #444;
+    line-height: 1.4;
+  }
+
+  .frts-card a {
+    display: inline-block;
+    margin: 0 12px 16px;
+    padding: 8px 14px;
+    background: #0078ff;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+  }
+
+  .frts-card a:hover {
+    background: #005fcc;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="frts-grid" id="posts"></div>
+
+<script>
+fetch("https://fieldruraltech.blogspot.com/feeds/posts/default?alt=json&max-results=3")
+  .then(res => res.json())
+  .then(data => {
+    const container = document.getElementById("posts");
+    const entries = data.feed.entry;
+
+    entries.forEach(entry => {
+      const title = entry.title.$t;
+      const link = entry.link.find(l => l.rel === "alternate").href;
+      const raw = entry.content.$t;
+      const snippet = raw.replace(/<[^>]*>?/gm, "").substring(0, 120) + "...";
+
+      let thumbnail = "";
+      if (entry.media$thumbnail) {
+        thumbnail = entry.media$thumbnail.url.replace("s72-c", "s800");
+      } else {
+        thumbnail = "https://via.placeholder.com/800x450?text=Field+%26+Rural+Tech+Services";
+      }
+
+      container.innerHTML += `
+        <div class="frts-card">
+          <img src="${thumbnail}" alt="${title}">
+          <h3>${title}</h3>
+          <p>${snippet}</p>
+          <a href="${link}" target="_blank">Read More</a>
+        </div>
+      `;
+    });
+  });
+</script>
+
+</body>
+</html>
