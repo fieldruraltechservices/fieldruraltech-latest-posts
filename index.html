@@ -80,34 +80,10 @@
 <div class="frts-grid" id="posts"></div>
 
 <script>
-fetch("https://fieldruraltech.blogspot.com/feeds/posts/default?alt=json&max-results=3")
-  .then(res => res.json())
-  .then(data => {
-    const container = document.getElementById("posts");
-    const entries = data.feed.entry;
-
-    entries.forEach(entry => {
-      const title = entry.title.$t;
-      const link = entry.link.find(l => l.rel === "alternate").href;
-      const raw = entry.content.$t;
-      const snippet = raw.replace(/<[^>]*>?/gm, "").substring(0, 120) + "...";
-
-      let thumbnail = "";
-      if (entry.media$thumbnail) {
-        thumbnail = entry.media$thumbnail.url.replace("s72-c", "s800");
-      } else {
-        thumbnail = "https://via.placeholder.com/800x450?text=Field+%26+Rural+Tech+Services";
-      }
-
-      container.innerHTML += `
-        <div class="frts-card">
-          <img src="${thumbnail}" alt="${title}">
-          <h3>${title}</h3>
-          <p>${snippet}</p>
-          <a href="${link}" target="_blank">Read More</a>
-        </div>
-      `;
-    });
+fetch("https://script.google.com/macros/s/AKfycbyKDmtH7nMVE4RGzGxudVbUsRmd009I4QikV_z_3C6QxSLlynYWzs2NBo-BqXFrkXTphA/exec")
+  .then(res => res.text())
+  .then(html => {
+    document.getElementById("posts").innerHTML = html;
   })
   .catch(err => {
     document.getElementById("posts").innerHTML =
